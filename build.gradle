@@ -28,4 +28,7 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
     compile 'com.microsoft.ews-java-api:ews-java-api:2.0'
+   // compile fileTree(dir:'libs',include:['*.jar'])
+    // https://mvnrepository.com/artifact/javazoom/jlayer
+	compile group: 'javazoom', name: 'jlayer', version: '1.0.1'
 }
