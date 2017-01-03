@@ -69,6 +69,7 @@ public class User {
 			inbox = Folder.bind(es, WellKnownFolderName.Inbox);
 		} catch (Exception e) {
 			e.printStackTrace();
+			player.play();
 			System.out.println("pls check your email and password!");
 		}
 
@@ -86,9 +87,16 @@ public class User {
 		//boolean hasUnreadMails=false;
 
 		// Binding to an Existing Folder绑定收件箱
-		try {
+		
 			// 查询返回结果
-			findResults = es.findItems(inbox.getId(), sf, view);
+			try {
+				findResults = es.findItems(inbox.getId(), sf, view);
+			} catch (Exception e) {
+				//e.printStackTrace();
+				//有问题直接播放
+				player.play();
+				return ;
+			}
 			// get all unread numbers.
 			unReadNum = findResults.getTotalCount();
 			// System.out.println("" + unReadNum);
@@ -105,7 +113,7 @@ public class User {
 			 * // 将邮件置为已读 // message.setIsRead(true); // 更新到服务器上 //
 			 * message.update(ConflictResolutionMode.AlwaysOverwrite); }
 			 */
-			System.out.printf("%30s : %d封未读邮件！！\n", email, unReadNum);
+			//System.out.printf("%30s : %d封未读邮件！！\n", email, unReadNum);
 			// warning
 			if (unReadNum != 0) {
 				player.play();
@@ -114,12 +122,13 @@ public class User {
 				//JOptionPane.showMessageDialog(null, "You hava " + unReadNum + " unread email!", "Unread email",
 				//		JOptionPane.WARNING_MESSAGE);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "pls check your email and password!"+e.toString(), "check again",
-							JOptionPane.WARNING_MESSAGE);
-			System.out.println("pls check your email and password!");
-		}
+		
+		//*catch (Exception e) {
+		//.printStackTrace();
+		//	JOptionPane.showMessageDialog(null, "pls check your email and password!"+e.toString(), "check again",
+		//					JOptionPane.WARNING_MESSAGE);
+		//	System.out.println("pls check your email and password!");
+		//}*/
 		//return hasUnreadMails;
 
 	}
