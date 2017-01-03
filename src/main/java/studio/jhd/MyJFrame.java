@@ -1,5 +1,7 @@
+package studio.jhd;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,6 +16,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import studio.jhd.tool.Tool;
 
 public class MyJFrame extends JFrame implements ActionListener, ListSelectionListener {
 	
@@ -113,6 +117,7 @@ public class MyJFrame extends JFrame implements ActionListener, ListSelectionLis
 
 		bottom = new JPanel(new FlowLayout());
 		lastRefresh = new JLabel("last refresh:");
+		lastRefresh.setFont(new Font("ËÎÌו",Font.BOLD, 20));
 		bottom.add(lastRefresh);
 	}
 

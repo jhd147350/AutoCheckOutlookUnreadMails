@@ -1,3 +1,4 @@
+package studio.jhd;
 
 public interface RefreshUserListener {
 	public void refresh();

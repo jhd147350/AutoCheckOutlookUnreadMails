@@ -1,3 +1,4 @@
+package studio.jhd;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -14,6 +15,7 @@ import microsoft.exchange.webservices.data.credential.WebCredentials;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
+import studio.jhd.tool.Mp3Player;
 
 public class User {
 	static public Mp3Player player;
@@ -32,7 +34,7 @@ public class User {
 	SearchFilter sf;
 	FindItemsResults<Item> findResults;
 
-	User(String email, String password) throws URISyntaxException {
+	public User(String email, String password) throws URISyntaxException {
 		this.email = email;
 		this.password = password;
 		//
