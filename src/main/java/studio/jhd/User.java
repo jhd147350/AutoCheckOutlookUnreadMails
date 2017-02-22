@@ -1,9 +1,7 @@
 package studio.jhd;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import javax.swing.JOptionPane;
-
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
@@ -21,7 +19,7 @@ public class User {
 	static public Mp3Player player;
 	static {
 		System.out.println("static init mp3player");
-		player = new Mp3Player("contra.mp3");
+		player = new Mp3Player(Config.MP3_PATH);
 	}
 	private String email;
 	private String password;
@@ -34,11 +32,11 @@ public class User {
 	SearchFilter sf;
 	FindItemsResults<Item> findResults;
 
+	private boolean connectFailed = false;
+
 	public User(String email, String password) throws URISyntaxException {
 		this.email = email;
 		this.password = password;
-		//
-		// connect2Email(); shuoud called by user.
 	}
 
 	public String getEmail() {
@@ -57,82 +55,56 @@ public class User {
 		this.password = password;
 	}
 
-	public void connect2Email(/* String email,String password */) throws URISyntaxException {
+	// å¸å·å¯†ç é”™è¯¯ æˆ–ç½‘ç»œè¿žæŽ¥é”™è¯¯æŠ›å‡ºä¸€åœº
+	public void connect2Email(/* String email,String password */) {
 
 		es = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
 		ec = new WebCredentials(email, password);
 		es.setCredentials(ec);
 
 		// Setting the URL of the Service
-		es.setUrl(new URI("https://mail.21vianet.com/EWS/Exchange.asmx"));
 
-		// Á¬½ÓÓÊÏä
+		try {
+			es.setUrl(new URI(Config.OUTLOOK_URL));
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			connectFailed = true;
+		}
+		// es.autodiscoverUrl(email);
+
 		try {
 			inbox = Folder.bind(es, WellKnownFolderName.Inbox);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			player.play();
-			System.out.println("pls check your email and password!");
+			connectFailed = true;
 		}
 
-		// ×¼±¸½øÐÐÎ´¶ÁÓÊ¼þ²éÈ¡
-		// ×î¶à²éÑ¯µ½µÄÊýÁ¿
 		view = new ItemView(10);
 
-		// ¹ýÂËÎ´¶ÁÓÊ¼þ
+		//
 		sf = new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, false);
 
 	}
 
-	public void outputUnReadNum() {
-		/// unread email numbers
-		//boolean hasUnreadMails=false;
+	public int getUnReadNum() {
+		if(connectFailed){
+			return -1;
+		}
 
-		// Binding to an Existing Folder°ó¶¨ÊÕ¼þÏä
-		
-			// ²éÑ¯·µ»Ø½á¹û
-			try {
-				findResults = es.findItems(inbox.getId(), sf, view);
-			} catch (Exception e) {
-				//e.printStackTrace();
-				//ÓÐÎÊÌâÖ±½Ó²¥·Å
-				player.play();
-				return ;
-			}
-			// get all unread numbers.
-			unReadNum = findResults.getTotalCount();
-			// System.out.println("" + unReadNum);
-			/*
-			 * for (Item item : findResults.getItems()) { EmailMessage message =
-			 * EmailMessage.bind(es, item.getId()); // Êä³öÎ´¶ÁÓÊ¼þÐÅÏ¢
-			 * System.out.print(message.getSender());
-			 * System.out.println("  Subject:" + message.getSubject()); //
-			 * unReadNum++;
-			 * 
-			 * // MessageBody mb=message.getBody(); //
-			 * System.out.println("body-->" + mb.toString());
-			 * 
-			 * // ½«ÓÊ¼þÖÃÎªÒÑ¶Á // message.setIsRead(true); // ¸üÐÂµ½·þÎñÆ÷ÉÏ //
-			 * message.update(ConflictResolutionMode.AlwaysOverwrite); }
-			 */
-			//System.out.printf("%30s : %d·âÎ´¶ÁÓÊ¼þ£¡£¡\n", email, unReadNum);
-			// warning
-			if (unReadNum != 0) {
-				player.play();
-				//TODO ÔÚÖ÷Ïß³Ìµ¯´°»á×èÈû Ö÷Ïß³Ì£¬²»µã»÷»áÒ»Ö±×èÈû£¬³ÌÐòÎÞ·¨Íê³É£¬¿ÉÒÔ¿ª×ÓÏß³ÌÈ¥µ¯´°£¬ÕâÀïÔÝÊ±ÏÈÈ¥µô
-				//=true;
-				//JOptionPane.showMessageDialog(null, "You hava " + unReadNum + " unread email!", "Unread email",
-				//		JOptionPane.WARNING_MESSAGE);
-			}
-		
-		//*catch (Exception e) {
-		//.printStackTrace();
-		//	JOptionPane.showMessageDialog(null, "pls check your email and password!"+e.toString(), "check again",
-		//					JOptionPane.WARNING_MESSAGE);
-		//	System.out.println("pls check your email and password!");
-		//}*/
-		//return hasUnreadMails;
+		try {
+			findResults = es.findItems(inbox.getId(), sf, view);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
 
+		// get all unread numbers.
+		unReadNum = findResults.getTotalCount();
+
+		return unReadNum;
 	}
 
 	@Override
@@ -140,4 +112,13 @@ public class User {
 		return "User [email=" + email + ", password=" + password + "]";
 	}
 
+	/*
+	 * class MyException extends Exception { public MyException(String email,
+	 * String password) {
+	 * 
+	 * }
+	 * 
+	 * @Override public void printStackTrace() { super.printStackTrace();
+	 * System.out.println(email + ":" + password); } }
+	 */
 }

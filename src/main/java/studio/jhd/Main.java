@@ -1,5 +1,7 @@
 package studio.jhd;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URISyntaxException;
@@ -7,125 +9,87 @@ import java.time.LocalTime;
 import java.util.List;
 
 import studio.jhd.tool.Tool;
+import studio.jhd.ui.Home.MyListener;
+import studio.jhd.ui.StatusBar;
 
 public class Main {
-	static long lastRefreshTime = 0;
+
 	static MyJFrame f;
-	static Thread queryUnReadMailNum;
-	static boolean QUIT = false;
-	static List<User> users;
-	static RefreshUserListener refreshUserListener = new RefreshUserListener() {
-		// imp adduserlistener in order to read the latest data and refresh UI
-		@Override
-		public void refresh() {
-			users = Tool.readProperties();
-			f.setList(users);
-
-		}
-
-		@Override
-		public void begin() {
-			QUIT = false;
-		}
-
-		@Override
-		public void stop() {
-			QUIT = true;
-		}
-	};
 
 	public static void main(String[] args) {
 
 		// TFFrame frame=new TFFrame();
 		f = new MyJFrame();
-		f.addWindowListener(new MyWin());
-		f.setRefreshUserListener(refreshUserListener);
-		users = Tool.readProperties();
-		for (User u : users) {
-			// we should connect to email server first
-			try {
-				u.connect2Email();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-		}
-		f.setList(users);
-		// Tool.writeProperties("jhd147350", "aaaaaaaaa");
+		// æ•°æ®åˆå§‹åŒ–è¦å’Œç•Œé¢åˆå§‹è¯åˆ†å¼€ï¼Œå¦åˆ™å½“æ•°æ®å‡ºå¼‚å¸¸æ—¶ä¼šå½±å“åˆ°ç•Œé¢çš„åŠ è½½
 
-		queryUnReadMailNum = new Thread() {
+		f.setHomeMyListener(new MyListener() {
+
 			@Override
-			public void run() {
-				super.run();
-				boolean PLAY = false;
-				countingTime();
-				while (!QUIT) {
-					lastRefreshTime = System.currentTimeMillis();
-
-					// System.out.println("last refresh:" + LocalTime.now());
-					//f.lastRefresh.setText("last refresh:" + LocalTime.now());
-					for (User temp : users) {
-						temp.outputUnReadNum();
-						// System.out.println(PLAY);
-					}
-					if (PLAY) {
-						// User.player.play();
-					}
-					try {
-						// Thread.currentThread();
-						// sleep 30s
-						Thread.sleep(30l * 1000l);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+			public void clickStop() {
+				User.player.stop();
+				StatusBar.currentStatus.setText("stop");
 			}
-		};
-		queryUnReadMailNum.start();
+
+			@Override
+			public void clickDelete() {
+
+				f.bindData();
+				StatusBar.currentStatus.setText("delete");
+
+			}
+
+			@Override
+			public void clickAdd() {
+
+				f.bindData();
+				StatusBar.currentStatus.setText("add");
+
+			}
+
+			@Override
+			public void receiveUnReadMail(int num) {
+				User.player.play();
+			}
+
+			@Override
+			public void bindException() {
+				myException();
+
+			}
+		});
+		// f.addlistener
+		f.addWindowListener(new MyWin());
+
+		// æœ€åç»‘å®šæ•°æ® å¦åˆ™ç›‘å¬å™¨ ä¼šåœ¨å¼‚å¸¸ä¹‹åå¾—ä¸åˆ°åˆå§‹åŒ–
+		f.bindData();
 
 	}
 
-	// ÒòÎª½Ó¿ÚWindowLinstenerÖĞµÄËùÓĞ·½·¨¶¼±»×ÓÀà WindowAdapterÊµÏÖÁË,.
-	// ²¢ÇÒ¸²¸ÇÁËÆäÖĞµÄËùÓĞ·½·¨,ÄÇÃ´ÎÒÃÇÖ»ÄÜ¼Ì³Ğ WindowAdapter ¸²¸ÇÎÒÃÇµÄ·½·¨¼´¿É
 	static class MyWin extends WindowAdapter {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
 			// System.out.println("Window closing"+e.toString());
-			System.out.println("ÎÒ¹ØÁË");
+			System.out.println("exit");
 			System.exit(0);
 		}
 
 		@Override
 		public void windowActivated(WindowEvent e) {
-			// Ã¿´Î»ñµÃ½¹µã ¾Í»á´¥·¢
-			System.out.println("ÎÒ»îÁË");
-			// super.windowActivated(e);
 		}
 
 		@Override
 		public void windowOpened(WindowEvent e) {
-			System.out.println("ÎÒ¿ªÁË");
-			// super.windowOpened(e);
 		}
 
 	}
 
-	static void countingTime() {
-		new Thread() {
-			public void run() {
-				while (true) {
-					long tem = System.currentTimeMillis() - lastRefreshTime;
-
-					f.lastRefresh.setText(""+tem/1000);
-					try {
-						sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			};
-		}.start();
+	public static void myException() {
+		// TODO
+		StatusBar.currentStatus.setText("é‚®ç®±å¯†ç æœ‰è¯¯æˆ–ç½‘ç»œé—®é¢˜");
+		// e.printStackTrace();
+		System.out.println("ç»‘å®šæ•°æ®æˆ–ç½‘ç»œå‡ºé—®é¢˜");
+		User.player.play();
 	}
 
 }
