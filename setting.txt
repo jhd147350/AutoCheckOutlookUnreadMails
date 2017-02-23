@@ -1,0 +1,4 @@
+#below are you setting config
+#Wed Feb 22 15:13:38 CST 2017
+MP3_PATH=ccontra.mp3
+INTERVAL=15

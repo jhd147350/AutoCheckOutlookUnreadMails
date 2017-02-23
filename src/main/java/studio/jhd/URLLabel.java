@@ -40,7 +40,12 @@ public class URLLabel extends JLabel implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
+
+
 
 }

@@ -1,14 +1,7 @@
 package studio.jhd;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.URISyntaxException;
-import java.time.LocalTime;
-import java.util.List;
-
-import studio.jhd.tool.Tool;
 import studio.jhd.ui.Home.MyListener;
 import studio.jhd.ui.StatusBar;
 

@@ -34,7 +34,7 @@ public class User {
 
 	private boolean connectFailed = false;
 
-	public User(String email, String password) throws URISyntaxException {
+	public User(String email, String password){
 		this.email = email;
 		this.password = password;
 	}
@@ -56,35 +56,39 @@ public class User {
 	}
 
 	// 帐号密码错误 或网络连接错误抛出一场
-	public void connect2Email(/* String email,String password */) {
+	public boolean connect2Email(/* String email,String password */) {
 
 		es = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
 		ec = new WebCredentials(email, password);
 		es.setCredentials(ec);
-
+		
 		// Setting the URL of the Service
 
 		try {
 			es.setUrl(new URI(Config.OUTLOOK_URL));
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			connectFailed = true;
+			System.out.println("--------------------OUTLOOK URL ERR");
+			return false;
 		}
 		// es.autodiscoverUrl(email);
 
 		try {
 			inbox = Folder.bind(es, WellKnownFolderName.Inbox);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("--------------------OUTLOOK BIND ERR");
 			connectFailed = true;
+			return false;
 		}
 
 		view = new ItemView(10);
 
 		//
 		sf = new SearchFilter.IsEqualTo(EmailMessageSchema.IsRead, false);
+		
+		return true;
 
 	}
 
@@ -96,7 +100,6 @@ public class User {
 		try {
 			findResults = es.findItems(inbox.getId(), sf, view);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
 		}
@@ -121,4 +124,9 @@ public class User {
 	 * @Override public void printStackTrace() { super.printStackTrace();
 	 * System.out.println(email + ":" + password); } }
 	 */
+	public void closeConection(){
+		if(es!=null){
+			es.close();
+		}
+	}
 }

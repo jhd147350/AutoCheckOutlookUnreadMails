@@ -9,14 +9,12 @@ import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 import javax.swing.Box;
 import java.awt.Component;
-import java.awt.GridLayout;
 
 public class About extends JPanel {
 
 	JLabel version;
 
 	public About() {
-		// TODO Auto-generated constructor stub
 		init();
 	}
 

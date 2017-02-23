@@ -6,15 +6,17 @@ package studio.jhd;
  * @author jiahaodong
  *
  */
-public interface Config {
+public class Config {
 
 	public static String OUTLOOK_URL = "https://mail.21vianet.com/EWS/Exchange.asmx";
 	// 默认刷新间隔30s
-	public static int INTERVAL = 10;
+	public static final String INTERVAL_STR = "INTERVAL";
+	public static int INTERVAL = 30;
 
 	// 用于提示音的MP3文件目录
+	public static final String MP3_PATH_STR = "MP3_PATH";
 	public static String MP3_PATH = "contra.mp3";
-	
-	public static String PASSWORD_PATH="password.txt";
-	
+
+	public static String PASSWORD_PATH = "password.txt";
+
 }

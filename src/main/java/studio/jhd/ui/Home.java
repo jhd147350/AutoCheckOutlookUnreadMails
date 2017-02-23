@@ -1,15 +1,12 @@
 package studio.jhd.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -17,23 +14,20 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import studio.jhd.Config;
 import studio.jhd.User;
 import studio.jhd.tool.Tool;
 
 import javax.swing.JRadioButton;
 
-public class Home extends JPanel implements ActionListener {
+public class Home extends JPanel implements ActionListener{
 
 	// top
 	private JPanel top;
@@ -41,7 +35,7 @@ public class Home extends JPanel implements ActionListener {
 	private JLabel lemail;
 	private JLabel lpassword;
 	private JTextField temail;
-	private JTextField tpassword;
+	private JPasswordField tpassword;
 	// middle
 	private JPanel middle;
 	private JScrollPane scroll;
@@ -50,20 +44,19 @@ public class Home extends JPanel implements ActionListener {
 	// private JButton begin;
 	private JButton stop;
 	private JButton delete;
-	private JRadioButton rdbtnNewRadioButton;
+	private JRadioButton showPassword;
 	// JLabel lastRefresh;
 	private List<User> users;
 
 	private Thread thread;
-	
+
 	private MyListener myListener;
-	
-	public void setMyListener (MyListener myListener){
-		this.myListener=myListener;
-		
+	public void setMyListener(MyListener myListener) {
+		this.myListener = myListener;
+
 	}
+
 	public Home() {
-		// TODO Auto-generated constructor stub
 		init();
 		initListener();
 		// setList();
@@ -75,7 +68,6 @@ public class Home extends JPanel implements ActionListener {
 	}
 
 	private void restartListen() {
-		// TODO Auto-generated method stub
 		if (thread != null)
 			thread.stop();
 		thread = new Thread(new Runnable() {
@@ -84,30 +76,29 @@ public class Home extends JPanel implements ActionListener {
 				try {
 					while (true) {
 						System.out.println(users.size());
-						float i=0;
+						float i = 0;
 						int limitSec = Config.INTERVAL;
 						for (User temp : users) {
 							i++;
 							int unReadNum = temp.getUnReadNum();
-							if(unReadNum>0){
+							if (unReadNum > 0) {
 								myListener.receiveUnReadMail(unReadNum);
-							}
-							else if(unReadNum == -1){
+							} else if (unReadNum == -1) {
 								myListener.bindException();
 							}
-							int j=(int) (i/users.size()*100);
+							int j = (int) (i / users.size() * 100);
 							System.out.println(j);
 							StatusBar.progressBar.setValue(j);
 						}
 						while (limitSec > 0) {
 							System.out.println("remians " + --limitSec + " s");
-							StatusBar.countDown.setText(limitSec+"s");
+							StatusBar.countDown.setText(limitSec + "s");
 
 							TimeUnit.SECONDS.sleep(1);
 						}
+						StatusBar.progressBar.setValue(0);
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -116,34 +107,29 @@ public class Home extends JPanel implements ActionListener {
 	}
 
 	private void initListener() {
-		// TODO Auto-generated method stub
 		add.addActionListener(this);
 		delete.addActionListener(this);
 		stop.addActionListener(this);
-		tpassword.getDocument().addDocumentListener(new DocumentListener() {
+		
+		showPassword.addChangeListener(new ChangeListener() {
+			
 			@Override
-			public void insertUpdate(DocumentEvent e) {
-			}
+			public void stateChanged(ChangeEvent e) {
+				if(e.getSource()==showPassword){
+					if( showPassword.isSelected()){
+						tpassword.setEchoChar('\0');
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				System.out.println("password change");
-				if (tpassword.getText().length() > 0) {
-					add.setEnabled(false);
-				} else
-					add.setEnabled(false);
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
+					}else{
+						tpassword.setEchoChar('•');
+					};
+				}
 			}
 		});
-		
-		//this.addVetoableChangeListener(listener);
+
+		// this.addVetoableChangeListener(listener);
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
 
 		top = new JPanel(new FlowLayout());
 		// top.setPreferredSize(new Dimension(100, 100));
@@ -182,14 +168,15 @@ public class Home extends JPanel implements ActionListener {
 		temail = new JTextField("@21vianet.com", 15);
 		// temail.set
 		// temail.sesiz
-		tpassword = new JTextField(15);
+		tpassword = new JPasswordField(15);
+	//	tpassword.setEchoChar('\0');
 		top.add(lemail);
 		top.add(temail);
 		top.add(lpassword);
 		top.add(tpassword);
 
-		rdbtnNewRadioButton = new JRadioButton("show");
-		top.add(rdbtnNewRadioButton);
+		showPassword = new JRadioButton("show");
+		top.add(showPassword);
 		top.add(add);
 
 		middle = new JPanel(new BorderLayout());
@@ -229,23 +216,38 @@ public class Home extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "add":
-			Tool.writeProperties(temail.getText(), tpassword.getText(), Config.PASSWORD_PATH);
+			if(tpassword.getText().equals("")){
+				break;
+			}
+			String email = temail.getText();
+			String password = tpassword.getText();
+			User user = new User(email, password);
+			boolean connect2Email = user.connect2Email();
+			if (!connect2Email) {
+
+				user.closeConection();
+				JOptionPane.showMessageDialog(null, "pls check your email and password!", "check again",
+						JOptionPane.WARNING_MESSAGE);
+				break;
+			}
+			user.closeConection();
+			Tool.writeProperties(email, password, Config.PASSWORD_PATH);
 			tpassword.setText("");
 			myListener.clickAdd();
 
 			// 每次添加一个用户都要重置数据
-			//bindData();
+			// bindData();
 
 			break;
 		case "delete":
 			Tool.writeProperties(emails.getSelectedValue().toString(), null, Config.PASSWORD_PATH);
 			// 删除时也要重置列表数据
-			//bindData();
+			// bindData();
 			myListener.clickDelete();
 			break;
 
 		case "stop mp3":
-			//User.player.stop();
+			// User.player.stop();
 			myListener.clickStop();
 			break;
 		}
@@ -267,25 +269,29 @@ public class Home extends JPanel implements ActionListener {
 			temp.connect2Email();
 		}
 	}
-	
-	public void bindData(){
+
+	public void bindData() {
 		// 初始化数据
 		try {
 			setUsers();
 		} catch (Exception e) {
 			e.printStackTrace();
 			myListener.bindException();
-		}
-		finally {
+		} finally {
 			restartListen();
 		}
-		
+
 	}
-	public interface MyListener{
+
+	public interface MyListener {
 		public void clickAdd();
+
 		public void clickStop();
+
 		public void clickDelete();
+
 		public void receiveUnReadMail(int num);
+
 		public void bindException();
 	}
 }
