@@ -1,4 +1,4 @@
-package studio.jhd;
+package jhd;
 
 /**
  * some config Outllook url etc.

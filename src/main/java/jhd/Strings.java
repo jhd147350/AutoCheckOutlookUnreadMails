@@ -1,4 +1,4 @@
-package studio.jhd;
+package jhd;
 
 /**
  * 一些字符串

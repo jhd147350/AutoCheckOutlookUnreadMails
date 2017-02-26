@@ -1,9 +1,10 @@
-package studio.jhd;
+package jhd;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import studio.jhd.ui.Home.MyListener;
-import studio.jhd.ui.StatusBar;
+
+import jhd.ui.StatusBar;
+import jhd.ui.Home.MyListener;
 
 public class Main {
 

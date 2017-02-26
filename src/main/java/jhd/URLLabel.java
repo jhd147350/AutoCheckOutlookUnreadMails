@@ -1,4 +1,4 @@
-package studio.jhd;
+package jhd;
 
 import java.awt.Cursor;
 import java.awt.Desktop;

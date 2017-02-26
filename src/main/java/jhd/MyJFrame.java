@@ -1,4 +1,4 @@
-package studio.jhd;
+package jhd;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -6,11 +6,12 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import studio.jhd.ui.About;
-import studio.jhd.ui.Home;
-import studio.jhd.ui.Setting;
-import studio.jhd.ui.StatusBar;
-import studio.jhd.ui.Home.MyListener;
+
+import jhd.ui.About;
+import jhd.ui.Home;
+import jhd.ui.Setting;
+import jhd.ui.StatusBar;
+import jhd.ui.Home.MyListener;
 
 public class MyJFrame
 		extends JFrame /* implements ActionListener, ListSelectionListener */ {

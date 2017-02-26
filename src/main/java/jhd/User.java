@@ -1,7 +1,9 @@
-package studio.jhd;
+package jhd;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import jhd.tool.Mp3Player;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
@@ -13,7 +15,6 @@ import microsoft.exchange.webservices.data.credential.WebCredentials;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
-import studio.jhd.tool.Mp3Player;
 
 public class User {
 	static public Mp3Player player;

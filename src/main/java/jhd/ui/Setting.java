@@ -1,4 +1,4 @@
-package studio.jhd.ui;
+package jhd.ui;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
@@ -6,9 +6,9 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import studio.jhd.Config;
-import studio.jhd.Strings;
-import studio.jhd.tool.Tool;
+import jhd.Config;
+import jhd.Strings;
+import jhd.tool.Tool;
 
 import java.awt.FlowLayout;
 import java.awt.Component;

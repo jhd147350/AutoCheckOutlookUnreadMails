@@ -1,12 +1,13 @@
-package studio.jhd.ui;
+package jhd.ui;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import studio.jhd.Strings;
-import studio.jhd.URLLabel;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+
+import jhd.Strings;
+import jhd.URLLabel;
+
 import javax.swing.Box;
 import java.awt.Component;
 

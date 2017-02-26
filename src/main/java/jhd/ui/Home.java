@@ -1,4 +1,4 @@
-package studio.jhd.ui;
+package jhd.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,9 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import studio.jhd.Config;
-import studio.jhd.User;
-import studio.jhd.tool.Tool;
+
+import jhd.Config;
+import jhd.User;
+import jhd.tool.Tool;
 
 import javax.swing.JRadioButton;
 

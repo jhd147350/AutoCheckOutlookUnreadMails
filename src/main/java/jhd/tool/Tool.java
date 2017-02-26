@@ -1,4 +1,4 @@
-package studio.jhd.tool;
+package jhd.tool;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import studio.jhd.Config;
-import studio.jhd.User;
+import jhd.Config;
+import jhd.User;
 
 public class Tool {
 

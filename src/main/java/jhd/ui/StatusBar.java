@@ -1,14 +1,16 @@
-package studio.jhd.ui;
+package jhd.ui;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
+import jhd.Config;
+
 import javax.swing.BoxLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.Box;
-import studio.jhd.Config;
 
 public class StatusBar extends JPanel {
 

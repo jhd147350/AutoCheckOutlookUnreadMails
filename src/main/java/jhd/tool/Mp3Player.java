@@ -1,12 +1,11 @@
-package studio.jhd.tool;
+package jhd.tool;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import studio.jhd.ui.StatusBar;
-//import javax.sound.sampled.
+import jhd.ui.StatusBar;
 
 public class Mp3Player {
 	//
