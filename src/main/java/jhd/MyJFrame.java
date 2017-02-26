@@ -27,7 +27,7 @@ public class MyJFrame
 	Home home;
 
 	MyJFrame() {
-		super("auto receive mail");
+		super(Strings.APP_NAME);
 		// setSize(width, height);
 		// setLocation((Toolkit.getDefaultToolkit().getScreenSize().width-width)/2,
 		// (Toolkit.getDefaultToolkit().getScreenSize().height-height)/2);

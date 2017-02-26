@@ -20,7 +20,7 @@ public class User {
 	static public Mp3Player player;
 	static {
 		System.out.println("static init mp3player");
-		player = new Mp3Player(Config.MP3_PATH);
+		player = new Mp3Player();
 	}
 	private String email;
 	private String password;

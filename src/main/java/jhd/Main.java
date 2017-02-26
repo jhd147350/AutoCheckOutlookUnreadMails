@@ -41,7 +41,8 @@ public class Main {
 			}
 
 			@Override
-			public void receiveUnReadMail(int num) {
+			public void receiveUnReadMail(String email, int num) {
+				StatusBar.currentStatus.setText(email+":"+num);
 				User.player.play();
 			}
 

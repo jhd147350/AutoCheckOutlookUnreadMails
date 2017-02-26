@@ -14,6 +14,8 @@ import java.awt.FlowLayout;
 import java.awt.Component;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.awt.event.ActionEvent;
 
 public class Setting extends JPanel {
@@ -34,8 +36,8 @@ public class Setting extends JPanel {
 		Box timeIntervalBox = Box.createHorizontalBox();
 		Box baseBox = Box.createVerticalBox();
 
-		JLabel mp3Dir = new JLabel("mp3 dir: ");
-		JLabel timeInterval = new JLabel("time interval: ");
+		JLabel mp3Dir = new JLabel("mp3路径: ");
+		JLabel timeInterval = new JLabel("刷新间隔s: ");
 
 		Component horizontalGlue = Box.createHorizontalGlue();
 		mp3DirBox.add(horizontalGlue);
@@ -70,6 +72,20 @@ public class Setting extends JPanel {
 		save = new JButton("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try{
+					int i=Integer.parseInt(timeInterTF.getText());
+					}
+				catch (Exception e) {
+					StatusBar.currentStatus.setText(Strings.SAVE_FAIL);
+					return ;
+				}
+				try {
+					BufferedInputStream in = new BufferedInputStream(new FileInputStream(mp3DirTF.getText()));
+					in.close();
+				} catch (Exception e) {
+					StatusBar.currentStatus.setText(Strings.SAVE_FAIL_MP3_NOT_FOUND);
+					return ;
+				}
 				Config.INTERVAL = Integer.parseInt(timeInterTF.getText());
 				Config.MP3_PATH = mp3DirTF.getText();
 				Tool.saveConfigToFile();

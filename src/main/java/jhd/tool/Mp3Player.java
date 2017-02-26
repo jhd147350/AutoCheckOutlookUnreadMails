@@ -3,8 +3,11 @@ package jhd.tool;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
+import jhd.Config;
 import jhd.ui.StatusBar;
 
 public class Mp3Player {
@@ -13,8 +16,7 @@ public class Mp3Player {
 	private Player player;
 	private boolean playing = false;
 
-	public Mp3Player(String filename) {
-		this.filename = filename;
+	public Mp3Player() {
 	}
 
 	public void play() {
@@ -24,16 +26,22 @@ public class Mp3Player {
 		}
 		playing = true;
 		try {
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename));
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(Config.MP3_PATH));
 			player = new Player(in);
 			System.out.println("play");
-			StatusBar.currentStatus.setText("playing");
+			//StatusBar.currentStatus.setText("playing");
 			player.play();
+			in.close();
+			player.close();
 			StatusBar.currentStatus.setText("playing over");
 			// player.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			StatusBar.currentStatus.setText("File not Found!");
 		} catch (JavaLayerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		playing = false;

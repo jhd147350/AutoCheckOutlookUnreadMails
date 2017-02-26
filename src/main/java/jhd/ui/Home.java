@@ -83,7 +83,7 @@ public class Home extends JPanel implements ActionListener{
 							i++;
 							int unReadNum = temp.getUnReadNum();
 							if (unReadNum > 0) {
-								myListener.receiveUnReadMail(unReadNum);
+								myListener.receiveUnReadMail(temp.getEmail(),unReadNum);
 							} else if (unReadNum == -1) {
 								myListener.bindException();
 							}
@@ -241,7 +241,12 @@ public class Home extends JPanel implements ActionListener{
 
 			break;
 		case "delete":
-			Tool.writeProperties(emails.getSelectedValue().toString(), null, Config.PASSWORD_PATH);
+			try {
+				Tool.writeProperties(emails.getSelectedValue().toString(), null, Config.PASSWORD_PATH);
+			} catch (Exception e2) {
+				break;
+			}
+			
 			// 删除时也要重置列表数据
 			// bindData();
 			myListener.clickDelete();
@@ -291,7 +296,7 @@ public class Home extends JPanel implements ActionListener{
 
 		public void clickDelete();
 
-		public void receiveUnReadMail(int num);
+		public void receiveUnReadMail(String email,int num);
 
 		public void bindException();
 	}

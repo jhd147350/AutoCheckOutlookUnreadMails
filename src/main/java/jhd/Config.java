@@ -15,7 +15,7 @@ public class Config {
 
 	// 用于提示音的MP3文件目录
 	public static final String MP3_PATH_STR = "MP3_PATH";
-	public static String MP3_PATH = "contra.mp3";
+	public static String MP3_PATH = "";
 
 	public static String PASSWORD_PATH = "password.txt";
 
