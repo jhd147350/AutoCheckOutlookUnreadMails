@@ -1,4 +1,4 @@
-# Ews-java-api-Demo
+# AutoCheckOutlookUnreadMails
 ##V1.1
 * 能同时检查多个outlook帐号中的未读邮件
 * 当有未读邮件时，会播放mp3提示
