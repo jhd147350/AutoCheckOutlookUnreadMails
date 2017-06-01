@@ -9,7 +9,7 @@ package jhd;
 public class Config {
 
 	public static String OUTLOOK_URL = "https://mail.21vianet.com/EWS/Exchange.asmx";
-	// 默认刷新间隔90s
+	// 默认刷新间隔90  
 	public static final String INTERVAL_STR = "INTERVAL";
 	public static int INTERVAL = 90;
 
