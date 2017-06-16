@@ -47,9 +47,15 @@ public class Main {
 			}
 
 			@Override
-			public void bindException() {
-				myException();
+			public void bindException(String email) {
+				myBindException(email);
 
+			}
+
+			@Override
+			public void netException(String email) {
+				// TODO Auto-generated method stub
+				myNetException(email);
 			}
 		});
 		// f.addlistener
@@ -79,11 +85,18 @@ public class Main {
 
 	}
 
-	public static void myException() {
+	public static void myBindException(String email) {
 		// TODO
-		StatusBar.currentStatus.setText("邮箱密码有误或网络问题");
+		StatusBar.currentStatus.setText(email+"邮箱密码有误");
 		// e.printStackTrace();
-		System.out.println("绑定数据或网络出问题");
+		System.out.println("绑定数据出问题");
+		User.player.play();
+	}
+	public static void myNetException(String email) {
+		// TODO
+		StatusBar.currentStatus.setText(email+"遇到网络问题");
+		// e.printStackTrace();
+		System.out.println("网络出问题");
 		User.player.play();
 	}
 

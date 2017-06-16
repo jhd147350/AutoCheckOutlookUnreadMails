@@ -28,7 +28,7 @@ import jhd.tool.Tool;
 
 import javax.swing.JRadioButton;
 
-public class Home extends JPanel implements ActionListener{
+public class Home extends JPanel implements ActionListener {
 
 	// top
 	private JPanel top;
@@ -52,6 +52,7 @@ public class Home extends JPanel implements ActionListener{
 	private Thread thread;
 
 	private MyListener myListener;
+
 	public void setMyListener(MyListener myListener) {
 		this.myListener = myListener;
 
@@ -83,9 +84,9 @@ public class Home extends JPanel implements ActionListener{
 							i++;
 							int unReadNum = temp.getUnReadNum();
 							if (unReadNum > 0) {
-								myListener.receiveUnReadMail(temp.getEmail(),unReadNum);
+								myListener.receiveUnReadMail(temp.getEmail(), unReadNum);
 							} else if (unReadNum == -1) {
-								myListener.bindException();
+								myListener.bindException(temp.getEmail());
 							}
 							int j = (int) (i / users.size() * 100);
 							System.out.println(j);
@@ -111,18 +112,19 @@ public class Home extends JPanel implements ActionListener{
 		add.addActionListener(this);
 		delete.addActionListener(this);
 		stop.addActionListener(this);
-		
+
 		showPassword.addChangeListener(new ChangeListener() {
-			
+
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				if(e.getSource()==showPassword){
-					if( showPassword.isSelected()){
+				if (e.getSource() == showPassword) {
+					if (showPassword.isSelected()) {
 						tpassword.setEchoChar('\0');
 
-					}else{
+					} else {
 						tpassword.setEchoChar('•');
-					};
+					}
+					;
 				}
 			}
 		});
@@ -170,7 +172,7 @@ public class Home extends JPanel implements ActionListener{
 		// temail.set
 		// temail.sesiz
 		tpassword = new JPasswordField(15);
-	//	tpassword.setEchoChar('\0');
+		// tpassword.setEchoChar('\0');
 		top.add(lemail);
 		top.add(temail);
 		top.add(lpassword);
@@ -217,7 +219,7 @@ public class Home extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "add":
-			if(tpassword.getText().equals("")){
+			if (tpassword.getText().equals("")) {
 				break;
 			}
 			String email = temail.getText();
@@ -246,7 +248,7 @@ public class Home extends JPanel implements ActionListener{
 			} catch (Exception e2) {
 				break;
 			}
-			
+
 			// 删除时也要重置列表数据
 			// bindData();
 			myListener.clickDelete();
@@ -268,24 +270,21 @@ public class Home extends JPanel implements ActionListener{
 		emails.setListData(v);
 	}
 
-	private void setUsers() throws Exception {
+	private void setUsers() {
 		users = Tool.readProperties(Config.PASSWORD_PATH);
 		setList(users);
 		for (User temp : users) {
-			temp.connect2Email();
+			if(!temp.connect2Email()){
+				myListener.bindException(temp.getEmail());
+			}
 		}
 	}
 
 	public void bindData() {
 		// 初始化数据
-		try {
-			setUsers();
-		} catch (Exception e) {
-			e.printStackTrace();
-			myListener.bindException();
-		} finally {
-			restartListen();
-		}
+
+		setUsers();
+		restartListen();
 
 	}
 
@@ -296,8 +295,11 @@ public class Home extends JPanel implements ActionListener{
 
 		public void clickDelete();
 
-		public void receiveUnReadMail(String email,int num);
+		public void receiveUnReadMail(String email, int num);
 
-		public void bindException();
+		// add param 'email' to display which email box have a exception
+		public void netException(String email);
+		
+		public void bindException(String email);
 	}
 }
