@@ -8,7 +8,7 @@ import javax.swing.JTextField;
 
 import jhd.Config;
 import jhd.Strings;
-import jhd.tool.Tool;
+import jhd.tool.FileTool;
 
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -28,7 +28,7 @@ public class Setting extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// 先初始化配置文件
-		Tool.initConfigFromFile();
+		FileTool.initConfigFromFile();
 
 		JPanel top = new JPanel();
 
@@ -88,8 +88,8 @@ public class Setting extends JPanel {
 				}
 				Config.INTERVAL = Integer.parseInt(timeInterTF.getText());
 				Config.MP3_PATH = mp3DirTF.getText();
-				Tool.saveConfigToFile();
-				Tool.initConfigFromFile();
+				FileTool.saveConfigToFile();
+				FileTool.initConfigFromFile();
 				StatusBar.currentStatus.setText(Strings.SAVE_OK);
 			}
 		});

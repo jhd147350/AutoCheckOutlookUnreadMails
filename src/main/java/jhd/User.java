@@ -65,15 +65,26 @@ public class User {
 		
 		// Setting the URL of the Service
 
-		try {
+		/*try {
 			es.setUrl(new URI(Config.OUTLOOK_URL));
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			connectFailed = true;
 			System.out.println("--------------------OUTLOOK URL ERR");
 			return false;
+		}*/
+		try {
+			
+			//TODO 自动发现url速度异常慢，不建议每次都要进行一次，可以将第一次发现的url保存，以便程序直接使用
+			es.autodiscoverUrl(email);
+			System.out.println("自动发现的url"+es.getUrl());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			connectFailed = true;
+			System.out.println("--------------------OUTLOOK URL ERR");
+			return false;
 		}
-		// es.autodiscoverUrl(email);
 
 		try {
 			inbox = Folder.bind(es, WellKnownFolderName.Inbox);

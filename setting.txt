@@ -1,4 +1,0 @@
-#below are you setting config
-#Fri Jun 16 10:29:15 CST 2017
-MP3_PATH=C\:\\Users\\jia.haodong\\Desktop\\contra.mp3
-INTERVAL=10

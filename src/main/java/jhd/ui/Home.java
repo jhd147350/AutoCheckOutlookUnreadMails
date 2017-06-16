@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import jhd.Config;
 import jhd.User;
-import jhd.tool.Tool;
+import jhd.tool.FileTool;
 
 import javax.swing.JRadioButton;
 
@@ -234,7 +234,7 @@ public class Home extends JPanel implements ActionListener {
 				break;
 			}
 			user.closeConection();
-			Tool.writeProperties(email, password, Config.PASSWORD_PATH);
+			FileTool.writeUsers(email, password);
 			tpassword.setText("");
 			myListener.clickAdd();
 
@@ -244,7 +244,7 @@ public class Home extends JPanel implements ActionListener {
 			break;
 		case "delete":
 			try {
-				Tool.writeProperties(emails.getSelectedValue().toString(), null, Config.PASSWORD_PATH);
+				FileTool.writeUsers(emails.getSelectedValue().toString(), null);
 			} catch (Exception e2) {
 				break;
 			}
@@ -271,7 +271,7 @@ public class Home extends JPanel implements ActionListener {
 	}
 
 	private void setUsers() {
-		users = Tool.readProperties(Config.PASSWORD_PATH);
+		users = FileTool.readUsers();
 		setList(users);
 		for (User temp : users) {
 			if(!temp.connect2Email()){

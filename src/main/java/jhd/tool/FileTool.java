@@ -10,15 +10,17 @@ import java.util.Properties;
 import java.util.Set;
 
 import jhd.Config;
+import jhd.Constant;
 import jhd.User;
 
-public class Tool {
+public class FileTool {
 
-	public static List<User> readProperties(String path) {
+	//获取用户
+	public static List<User> readUsers() {
 
 		// HashMap<String, String> m=new HashMap<String,String>();
 		List<User> users = new ArrayList<User>();
-		File file = new File(path);
+		File file = new File(Constant.PASSWORD_PATH);
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -50,10 +52,10 @@ public class Tool {
 	}
 
 	// if password is null then remove the email from list, otherwise add a new
-	// email to the list
-	public static void writeProperties(String email, String password, String path) {
+	// email to the list 写入新用户
+	public static void writeUsers(String email, String password) {
 
-		File file = new File(path);
+		File file = new File(Constant.PASSWORD_PATH);
 		// file.
 
 		Properties p = new Properties();
@@ -75,7 +77,7 @@ public class Tool {
 				p.put(email, password);
 			}
 
-			p.store(output, "update");
+			p.store(output, "账号信息如下");
 			output.close();
 			System.out.println("Your info has been saved!");
 
@@ -104,8 +106,8 @@ public class Tool {
 			// String property = p.getProperty(Config.INTERVAL_STR,
 			// Config.INTERVAL + "");
 			System.out.println("初始化配置");
-			Config.INTERVAL = Integer.parseInt((String) p.getOrDefault(Config.INTERVAL_STR, Config.INTERVAL+""));
-			Config.MP3_PATH = (String) p.getOrDefault(Config.MP3_PATH_STR, Config.MP3_PATH);
+			Config.INTERVAL = Integer.parseInt((String) p.getOrDefault(Constant.INTERVAL_STR, Config.INTERVAL+""));
+			Config.MP3_PATH = (String) p.getOrDefault(Constant.MP3_PATH_STR, Config.MP3_PATH);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -132,8 +134,8 @@ public class Tool {
 			// p.put(FIRSTRUN_STRING, "false");
 			// p.setProperty("phone22", "123456");
 			// p.setProperty(key, value)
-			p.put(Config.INTERVAL_STR, Config.INTERVAL + "");
-			p.put(Config.MP3_PATH_STR, Config.MP3_PATH);
+			p.put(Constant.INTERVAL_STR, Config.INTERVAL + "");
+			p.put(Constant.MP3_PATH_STR, Config.MP3_PATH);
 
 			p.store(output, "below are you setting config");
 			output.close();
