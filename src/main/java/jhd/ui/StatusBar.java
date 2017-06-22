@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import jhd.Config;
+import jhd.config.Config;
 
 import javax.swing.BoxLayout;
 import java.awt.Component;

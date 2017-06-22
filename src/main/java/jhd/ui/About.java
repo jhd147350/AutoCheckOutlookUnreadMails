@@ -5,7 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
-import jhd.Strings;
+import jhd.config.Strings;
+
 import javax.swing.Box;
 import java.awt.Component;
 

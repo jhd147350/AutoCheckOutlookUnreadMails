@@ -6,8 +6,8 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import jhd.Config;
-import jhd.Strings;
+import jhd.config.Config;
+import jhd.config.Strings;
 import jhd.tool.FileTool;
 
 import java.awt.FlowLayout;

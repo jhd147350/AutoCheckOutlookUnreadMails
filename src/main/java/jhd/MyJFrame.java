@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import jhd.config.Strings;
 import jhd.ui.About;
 import jhd.ui.Home;
 import jhd.ui.Setting;

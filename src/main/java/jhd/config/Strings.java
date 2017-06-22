@@ -1,4 +1,4 @@
-package jhd;
+package jhd.config;
 
 /**
  * 一些字符串

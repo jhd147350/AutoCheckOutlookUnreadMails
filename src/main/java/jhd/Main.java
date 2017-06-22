@@ -4,11 +4,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import jhd.ui.StatusBar;
+import jhd.tool.Mp3Player;
 import jhd.ui.Home.MyListener;
 
 public class Main {
 
 	static MyJFrame f;
+	static Mp3Player player=new Mp3Player();
 
 	public static void main(String[] args) {
 
@@ -20,42 +22,56 @@ public class Main {
 
 			@Override
 			public void clickStop() {
-				User.player.stop();
+				player.stop();
 				StatusBar.currentStatus.setText("stop");
 			}
 
 			@Override
 			public void clickDelete() {
-
 				f.bindData();
 				StatusBar.currentStatus.setText("delete");
-
 			}
 
 			@Override
 			public void clickAdd() {
-
 				f.bindData();
 				StatusBar.currentStatus.setText("add");
-
 			}
 
 			@Override
 			public void receiveUnReadMail(String email, int num) {
 				StatusBar.currentStatus.setText(email+":"+num);
-				User.player.play();
+				player.play();
 			}
 
 			@Override
 			public void bindException(String email) {
 				myBindException(email);
-
+				player.playErr();
 			}
 
 			@Override
 			public void netException(String email) {
-				// TODO Auto-generated method stub
 				myNetException(email);
+				player.playErr();
+			}
+
+			@Override
+			public void connectException(String email) {
+				StatusBar.currentStatus.setText("连接问题");
+				player.playErr();	
+			}
+
+			@Override
+			public void threadException() {
+				StatusBar.currentStatus.setText("工作线程问题");
+				player.playErr();
+			}
+
+			@Override
+			public void urlException(String email) {
+				StatusBar.currentStatus.setText(email+":url配置问题");
+				player.playErr();		
 			}
 		});
 		// f.addlistener
@@ -86,18 +102,14 @@ public class Main {
 	}
 
 	public static void myBindException(String email) {
-		// TODO
-		StatusBar.currentStatus.setText(email+"邮箱密码有误");
-		// e.printStackTrace();
-		System.out.println("绑定数据出问题");
-		User.player.play();
+		StatusBar.currentStatus.setText(email+"邮件获取失败");
+		
+		System.err.println("绑定数据出问题");
 	}
 	public static void myNetException(String email) {
-		// TODO
 		StatusBar.currentStatus.setText(email+"遇到网络问题");
-		// e.printStackTrace();
-		System.out.println("网络出问题");
-		User.player.play();
+		
+		System.err.println("网络出问题");
 	}
 
 }
