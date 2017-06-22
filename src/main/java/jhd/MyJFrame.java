@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane;
 
 import jhd.config.Strings;
 import jhd.ui.About;
+import jhd.ui.AddAccount;
 import jhd.ui.Home;
 import jhd.ui.Setting;
 import jhd.ui.StatusBar;
@@ -61,6 +62,7 @@ public class MyJFrame
 		// home.addlistener
 		tabP.add("Home", home);
 		tabP.add("Setting", new Setting());
+		tabP.add("Add Account", new AddAccount());
 		tabP.addTab("About", new About());
 		// add(new StatusBar(), BorderLayout.S);
 	}
