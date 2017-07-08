@@ -116,7 +116,7 @@ public class AddAccount extends JPanel implements ActionListener {
 		flowLayout_5.setVgap(0);
 		flowLayout_5.setHgap(0);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("手动输入");
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("手动输入Exchange Web Services Url");
 		panel_2.add(rdbtnNewRadioButton);
 		
 		textField_2 = new JTextField();

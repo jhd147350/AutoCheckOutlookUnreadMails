@@ -1,6 +1,6 @@
 /.gradle/
-
+/.settings/
 /bin/
 /contra.mp3
 /build/
-/password.txt
+/password.jhd
