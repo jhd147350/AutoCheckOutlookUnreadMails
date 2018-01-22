@@ -1,5 +1,7 @@
 package jhd.config;
 
+import junit.runner.Version;
+
 /**
  * 一些字符串
  * 
@@ -7,9 +9,10 @@ package jhd.config;
  *
  */
 public interface Strings {
-	public static final String APP_NAME = "Auto check unread mails";
 
 	public static final String VERSION = "V1.2";
+
+	public static final String APP_NAME = "Auto check unread mails " + VERSION;
 
 	public static final String ABOUT_PROJECT = "github源代码";
 
