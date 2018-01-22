@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import jhd.account.Account;
+import jhd.config.Strings;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
@@ -22,12 +23,7 @@ import microsoft.exchange.webservices.data.search.filter.SearchFilter;
  */
 public class OutlookConnector extends Connector {
 
-	// 网络错误
-	public static final int ERR_NET = 1;
-	// 账号错误
-	public static final int ERR_ACCOUNT = 2;
-	public static final int ERR_BIND = 3;
-	public static final int ERR_OUTLOOK_URL = 4;
+	public static final int ERR_IN_OUTLOOKCONNECTOR = 1;
 	private ExchangeService es;
 	private ExchangeCredentials ec;
 	private Folder inbox;
@@ -48,33 +44,18 @@ public class OutlookConnector extends Connector {
 		ec = new WebCredentials(a.getEmail(), a.getPassword());
 		es.setCredentials(ec);
 
-		if (a.getUrl() == null || a.getUrl().equals("")) {
-			try {
-				// TODO 自动发现url速度异常慢，不建议每次都要进行一次，可以将第一次发现的url保存，以便程序直接使用
-				es.autodiscoverUrl(a.getEmail());
-				System.out.println("自动发现的url" + es.getUrl());
-				this.url = es.getUrl().toString();
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.err.println("--------------------OUTLOOK URL ERR");
-				return ERR_OUTLOOK_URL;
-			}
-		} else {
-			try {
-				es.setUrl(new URI(a.getUrl()));
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-				return ERR_OUTLOOK_URL;
-			}
+		try {
+			es.setUrl(new URI(Strings.OUTLOOK_URL));
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+			return ERR_IN_OUTLOOKCONNECTOR;
 		}
 
 		try {
 			inbox = Folder.bind(es, WellKnownFolderName.Inbox);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("--------------------OUTLOOK BIND ERR");
-
-			return ERR_BIND;
+			return ERR_IN_OUTLOOKCONNECTOR;
 		}
 
 		view = new ItemView(10);

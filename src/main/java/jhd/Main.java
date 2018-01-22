@@ -10,7 +10,7 @@ import jhd.ui.Home.MyListener;
 public class Main {
 
 	static MyJFrame f;
-	static Mp3Player player=new Mp3Player();
+	static Mp3Player player = new Mp3Player();
 
 	public static void main(String[] args) {
 
@@ -40,26 +40,14 @@ public class Main {
 
 			@Override
 			public void receiveUnReadMail(String email, int num) {
-				StatusBar.currentStatus.setText(email+":"+num);
+				StatusBar.currentStatus.setText(email + ":" + num);
 				player.play();
 			}
 
 			@Override
-			public void bindException(String email) {
-				myBindException(email);
-				player.playErr();
-			}
-
-			@Override
-			public void netException(String email) {
-				myNetException(email);
-				player.playErr();
-			}
-
-			@Override
 			public void connectException(String email) {
-				StatusBar.currentStatus.setText("连接问题");
-				player.playErr();	
+				StatusBar.currentStatus.setText(email + "连接问题");
+				player.playErr();
 			}
 
 			@Override
@@ -67,19 +55,12 @@ public class Main {
 				StatusBar.currentStatus.setText("工作线程问题");
 				player.playErr();
 			}
-
-			@Override
-			public void urlException(String email) {
-				StatusBar.currentStatus.setText(email+":url配置问题");
-				player.playErr();		
-			}
 		});
 		// f.addlistener
 		f.addWindowListener(new MyWin());
 
 		// 最后绑定数据 否则监听器 会在异常之后得不到初始化
 		f.bindData();
-
 	}
 
 	static class MyWin extends WindowAdapter {
@@ -102,14 +83,15 @@ public class Main {
 	}
 
 	public static void myBindException(String email) {
-		StatusBar.currentStatus.setText(email+"邮件获取失败");
-		
-		System.err.println("绑定数据出问题");
+		StatusBar.currentStatus.setText(email + "绑定问题,可能是密码错误");
+
+		System.err.println("绑定问题,可能是密码错误");
 	}
+
 	public static void myNetException(String email) {
-		StatusBar.currentStatus.setText(email+"遇到网络问题");
-		
-		System.err.println("网络出问题");
+		StatusBar.currentStatus.setText(email + "遇到网络问题");
+
+		System.err.println("遇到网络问题");
 	}
 
 }

@@ -72,19 +72,18 @@ public class Setting extends JPanel {
 		save = new JButton("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-					int i=Integer.parseInt(timeInterTF.getText());
-					}
-				catch (Exception e) {
+				try {
+					int i = Integer.parseInt(timeInterTF.getText());
+				} catch (Exception e) {
 					StatusBar.currentStatus.setText(Strings.SAVE_FAIL);
-					return ;
+					return;
 				}
 				try {
 					BufferedInputStream in = new BufferedInputStream(new FileInputStream(mp3DirTF.getText()));
 					in.close();
 				} catch (Exception e) {
 					StatusBar.currentStatus.setText(Strings.SAVE_FAIL_MP3_NOT_FOUND);
-					return ;
+					return;
 				}
 				Config.INTERVAL = Integer.parseInt(timeInterTF.getText());
 				Config.MP3_PATH = mp3DirTF.getText();
@@ -98,29 +97,5 @@ public class Setting extends JPanel {
 		add(verticalStrut_1);
 		saveBox.add(save);
 		add(saveBox);
-
-		// --------------------------------
-		/*
-		 * JPanel setting1 = new JPanel(); add(setting1);
-		 * 
-		 * JLabel lblNewLabel_2 = new JLabel("New label");
-		 * 
-		 * textField_1 = new JTextField();
-		 * textField_1.setMaximumSize(textField_1.getPreferredSize());
-		 * lblNewLabel_2.setLabelFor(textField_1); textField_1.setColumns(20);
-		 * setting1.setLayout(new BoxLayout(setting1, BoxLayout.X_AXIS));
-		 * setting1.add(lblNewLabel_2); setting1.add(textField_1);
-		 * 
-		 * Component glue = Box.createGlue(); setting1.add(glue);
-		 * 
-		 * JLabel lblNewLabel = new JLabel("New label"); add(lblNewLabel);
-		 * 
-		 * Box horizontalBox = Box.createHorizontalBox(); add(horizontalBox);
-		 * horizontalBox.add(new JLabel("tyrs")); horizontalBox.add(new
-		 * JPanel(new FlowLayout()).add(new JTextField("1111")));
-		 * 
-		 * textField = new JTextField(); add(textField);
-		 * textField.setColumns(10);
-		 */
 	}
 }

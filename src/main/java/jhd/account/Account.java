@@ -9,7 +9,6 @@ public class Account {
 
 	private String email;
 	private String password;
-	private String url;
 
 	public Account(String email, String password) {
 		this.email = email;
@@ -32,13 +31,4 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 }

@@ -1,27 +1,17 @@
 package jhd;
 
 import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Vector;
-
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import jhd.config.Strings;
 import jhd.ui.About;
-import jhd.ui.AddAccount;
 import jhd.ui.Home;
 import jhd.ui.Setting;
 import jhd.ui.StatusBar;
 import jhd.ui.Home.MyListener;
 
-public class MyJFrame
-		extends JFrame /* implements ActionListener, ListSelectionListener */ {
-
-	//RefreshUserListener refreshUserListener;
-
-	// private int width = 550;
-	// private int height = 400;
+public class MyJFrame extends JFrame {
 
 	// tab
 	JTabbedPane tabP;
@@ -62,7 +52,6 @@ public class MyJFrame
 		// home.addlistener
 		tabP.add("Home", home);
 		tabP.add("Setting", new Setting());
-		tabP.add("Add Account", new AddAccount());
 		tabP.addTab("About", new About());
 		// add(new StatusBar(), BorderLayout.S);
 	}
@@ -71,21 +60,9 @@ public class MyJFrame
 		home.bindData();
 	}
 
-	
-	/*public void setList(List<User> list) {
-		Vector<String> v = new Vector<String>();
-		for (User u : list) {
-			v.add(u.getEmail());
-		}
-	}*/
-
 	public void setHomeMyListener(MyListener myListener) {
 		home.setMyListener(myListener);
 
 	}
-
-	/*public void setRefreshUserListener(RefreshUserListener refreshUserListener) {
-		this.refreshUserListener = refreshUserListener;
-	}*/
 
 }

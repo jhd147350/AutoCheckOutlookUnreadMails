@@ -59,7 +59,7 @@ public class Mp3Player {
 		}
 		playingErr = true;
 		try {
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(Config.MP3_PATH));
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(Config.MP3_PATH_ERR));
 			playerErr = new Player(in);
 			System.out.println("play err");
 			// StatusBar.currentStatus.setText("playing");

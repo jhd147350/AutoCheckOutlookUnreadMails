@@ -7,15 +7,30 @@ package jhd.config;
  *
  */
 public interface Strings {
-	public static final String APP_NAME="Auto check unread mails";
+	public static final String APP_NAME = "Auto check unread mails";
 
-	public static final String VERSION = "V1.1";
+	public static final String VERSION = "V1.2";
 
-	public static final String ABOUT_PROJECT = "Q935410469,1.暂不支持子文件的邮件检索；2.务必设置正确的mp3路径（当前文件夹下可直接写MP3的文件名）";
+	public static final String ABOUT_PROJECT = "github源代码";
 
-	public static final String GITHUB = "github";
+	public static final String GITHUB = "https://github.com/jhd147350/UnreadMails4Outlook";
 
 	public static final String SAVE_OK = "保存成功且生效";
 	public static final String SAVE_FAIL = "保存失败";
 	public static final String SAVE_FAIL_MP3_NOT_FOUND = "保存失败,mp3路径出错";
+
+	// 密码文件路径
+	public static final String PASSWORD_PATH = "password.txt";
+	// 设置文件路径
+	public static final String SETTING_PATH = "setting.txt";
+
+	// 21V 用到的企业邮箱url
+	public static final String OUTLOOK_URL = "https://mail.21vianet.com/EWS/Exchange.asmx";
+
+	// 刷新间隔 保存的字段名称
+	public static final String INTERVAL_STR = "INTERVAL";
+
+	// 用于提示音的MP3文件目录 保存的字段名称
+	public static final String MP3_PATH_STR = "MP3_PATH";
+
 }

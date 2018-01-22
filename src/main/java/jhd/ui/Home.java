@@ -83,33 +83,19 @@ public class Home extends JPanel implements ActionListener {
 		List<Account> accounts = FileTool.readUsers();
 		// 刷新list UI
 		setList(accounts);
-		Map<String, String> urlMap = FileTool.readUsersUrl();
-		for (Account temp : accounts) {
-			temp.setUrl(urlMap.get(temp.getEmail()));
-			System.out.println(temp.getEmail() + ":" + temp.getUrl());
-		}
 		// 再初初始化Connector
 		List<Connector> outlookConnectors = new ArrayList<>();
 		for (Account temp : accounts) {
 			Connector c = new OutlookConnector();
 			int status = c.tryConnect(temp);
 			switch (status) {
-			case OutlookConnector.ERR_ACCOUNT:
+			case OutlookConnector.ERR_IN_OUTLOOKCONNECTOR:
 				myListener.connectException(temp.getEmail());
 				break;
-			case OutlookConnector.ERR_BIND:
-				myListener.bindException(temp.getEmail());
-				break;
-			case OutlookConnector.ERR_NET:
-				myListener.netException(temp.getEmail());
-				break;
-			case OutlookConnector.ERR_OUTLOOK_URL:
-				myListener.urlException(temp.getEmail());
-				break;
 			case 0:
-				outlookConnectors.add(c);
 				break;
 			}
+			outlookConnectors.add(c);
 		}
 
 		thread = new Thread(new Runnable() {
@@ -126,10 +112,10 @@ public class Home extends JPanel implements ActionListener {
 							if (unReadNum > 0) {
 								myListener.receiveUnReadMail(temp.getEmail(), unReadNum);
 							} else if (unReadNum == -1) {
-								myListener.netException(temp.getEmail());
+								myListener.connectException(temp.getEmail());
 							}
 							int j = (int) (i / accounts.size() * 100);
-							System.out.println(j);
+							System.out.println("进度" + j + "%");
 							StatusBar.progressBar.setValue(j);
 						}
 						while (limitSec > 0) {
@@ -155,7 +141,6 @@ public class Home extends JPanel implements ActionListener {
 		stop.addActionListener(this);
 
 		showPassword.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if (e.getSource() == showPassword) {
@@ -165,16 +150,12 @@ public class Home extends JPanel implements ActionListener {
 					} else {
 						tpassword.setEchoChar('•');
 					}
-					;
 				}
 			}
 		});
-
-		// this.addVetoableChangeListener(listener);
 	}
 
 	private void init() {
-
 		top = new JPanel(new FlowLayout());
 		// top.setPreferredSize(new Dimension(100, 100));
 		top.addComponentListener(new ComponentListener() {
@@ -194,7 +175,6 @@ public class Home extends JPanel implements ActionListener {
 				} else {
 					top.setPreferredSize(new Dimension(preferredSize.width, 36));
 				}
-
 			}
 
 			@Override
@@ -231,8 +211,7 @@ public class Home extends JPanel implements ActionListener {
 		 * temps.add("jhdadas@21vianet.com");
 		 * temps.add("jhasdasd@21sdfsdfsdvianet.com");
 		 * temps.add("jhasdadad@21vianet.com"); temps.add("jhd@21vianet.com");
-		 * temps.add("jhdadas@21vianet.com");
-		 * temps.add("jhasdasd@21vianet.com");
+		 * temps.add("jhdadas@21vianet.com"); temps.add("jhasdasd@21vianet.com");
 		 * temps.add("jhasdadad@21vianet.com");
 		 */
 		emails = new JList();
@@ -250,17 +229,13 @@ public class Home extends JPanel implements ActionListener {
 		middle.add(middle_bottom, BorderLayout.SOUTH);
 		middle.add(scroll, BorderLayout.CENTER);
 		middle.add(delete, BorderLayout.EAST);
-		// lastRefresh = new JLabel("last refresh:");
-		// lastRefresh.setFont(new Font("����", Font.BOLD, 20));
-		// bottom.add(lastRefresh);
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "add":
-			
+
 			if (tpassword.getText().equals("")) {
 				break;
 			}
@@ -268,7 +243,7 @@ public class Home extends JPanel implements ActionListener {
 			String password = tpassword.getText();
 			Account account = new Account(email, password);
 			OutlookConnector c = new OutlookConnector();
-			Thread t=new Thread(){
+			Thread t = new Thread() {
 
 				@Override
 				public void run() {
@@ -277,22 +252,11 @@ public class Home extends JPanel implements ActionListener {
 					int tryConnect = c.tryConnect(account);
 
 					switch (tryConnect) {
-					case OutlookConnector.ERR_ACCOUNT:
+					case OutlookConnector.ERR_IN_OUTLOOKCONNECTOR:
 						myListener.connectException(email);
 						break;
-					case OutlookConnector.ERR_BIND:
-						myListener.bindException(email);
-						break;
-					case OutlookConnector.ERR_NET:
-						myListener.netException(email);
-						break;
-					case OutlookConnector.ERR_OUTLOOK_URL:
-						myListener.urlException(email);
-						break;
 					case 0:
-						// 将密码和得到的url分别保存
 						FileTool.writeUsers(email, password);
-						FileTool.writeUsersUrl(email, c.getUrl());
 						break;
 					}
 					c.closeConection();
@@ -310,11 +274,10 @@ public class Home extends JPanel implements ActionListener {
 					// bindData();
 					myListener.clickAdd();
 				}
-				
+
 			};
 			StatusBar.currentStatus.setText("正在尝试识别邮箱所对应的服务器url，需要一定的时间");
 			t.start();
-			
 
 			break;
 		case "delete":
@@ -334,7 +297,6 @@ public class Home extends JPanel implements ActionListener {
 			myListener.clickStop();
 			break;
 		}
-
 	}
 
 	private void setList(List<Account> list) {
@@ -344,12 +306,6 @@ public class Home extends JPanel implements ActionListener {
 		}
 		emails.setListData(v);
 	}
-
-	/*
-	 * private void setUsers() { users = FileTool.readUsers(); for (User temp :
-	 * users) { if (!temp.connect2Email()) {
-	 * myListener.bindException(temp.getEmail()); } } }
-	 */
 
 	public void bindData() {
 		// 初始化数据，也可以重新刷新数据初始化
@@ -369,14 +325,7 @@ public class Home extends JPanel implements ActionListener {
 
 		public void receiveUnReadMail(String email, int num);
 
-		// add param 'email' to display which email box have a exception
-		public void netException(String email);
-
-		public void bindException(String email);
-
 		public void connectException(String email);
-
-		public void urlException(String email);
 
 		public void threadException();
 	}

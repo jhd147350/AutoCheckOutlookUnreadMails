@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
+import jhd.URLLabel;
 import jhd.config.Strings;
 
 import javax.swing.Box;
@@ -31,8 +32,9 @@ public class About extends JPanel {
 
 		// .add(version);
 
-		// URLLabel iLabel=new URLLabel(Strings.ABOUT_PROJECT, "935410469");
-		JLabel iLabel = new JLabel(Strings.ABOUT_PROJECT);
+		// Strings.ABOUT_PROJECT
+		URLLabel iLabel = new URLLabel(Strings.GITHUB, Strings.ABOUT_PROJECT);
+		// JLabel iLabel = new JLabel(Strings.ABOUT_PROJECT);
 		iLabel.setMaximumSize(iLabel.getPreferredSize());
 
 		Box horizontalBox = Box.createHorizontalBox();

@@ -8,8 +8,6 @@ import jhd.account.Account;
  */
 public abstract class Connector {
 
-	
-
 	// 每个 都一一对应一个邮箱地址
 	protected String email;
 
